@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジブリの大倉庫｜ジブリパーク</title>
+    <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    line-height: 1.8;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: min(1000px, calc(100% - 40px));
+    margin: auto;
+}
+
+.detail-header__inner {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-brand {
+    font-weight: 700;
+}
+
+.detail-home {
+    font-size: .8rem;
+}
+
+.detail-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+}
+
+.detail-hero__content {
+    padding: 70px max(30px, 8vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detail-number,
+.detail-motif {
+    font-size: .8rem;
+}
+
+.detail-title {
+    margin: 15px 0;
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.2;
+}
+
+.detail-description {
+    max-width: 520px;
+}
+
+.detail-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-body {
+    padding: 70px 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 50px;
+}
+
+.detail-copy p {
+    margin-bottom: 20px;
+}
+
+.detail-notes {
+    padding: 22px;
+}
+
+.detail-notes li {
+    margin: 8px 0 8px 18px;
+}
+
+.detail-map-link {
+    display: inline-block;
+    margin-top: 18px;
+}
+
+.detail-credit {
+    margin-top: 30px;
+    font-size: .7rem;
+}
+
+.detail-character-lane {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.detail-character-lane img,
+.detail-corner-friends img {
+    position: absolute;
+}
+
+.detail-character-lane__totoro {
+    left: 8%;
+    bottom: -20px;
+    width: 110px;
+    opacity: .5;
+}
+
+.detail-character-lane__soot {
+    left: 40%;
+    bottom: 5px;
+    width: 160px;
+}
+
+.detail-character-lane__trail {
+    right: 8%;
+    bottom: 0;
+    width: 230px;
+    opacity: .15;
+}
+
+.detail-nav {
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.detail-nav a {
+    padding: 16px;
+}
+
+.detail-nav .next {
+    text-align: right;
+}
+
+.detail-nav small,
+.detail-nav span {
+    display: block;
+}
+
+.detail-footer {
+    position: relative;
+    min-height: 170px;
+    padding: 55px max(20px, 5vw);
+    overflow: hidden;
+}
+
+.detail-corner-friends {
+    position: absolute;
+    right: 4%;
+    bottom: 0;
+    width: 230px;
+    height: 150px;
+}
+
+.detail-corner-friends__totoro {
+    right: 0;
+    bottom: -20px;
+    width: 105px;
+    opacity: .55;
+}
+
+.detail-corner-friends__soot {
+    left: 0;
+    bottom: 0;
+    width: 145px;
+}
+
+@media (max-width: 700px) {
+    .detail-hero,
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-hero__content {
+        padding: 55px 20px;
+    }
+
+    .detail-hero__image {
+        height: 330px;
+    }
+
+    .detail-nav {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detail-home,
+.detail-map-link,
+.detail-nav a,
+.detail-hero__image {
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.detail-home:hover,
+.detail-map-link:hover,
+.detail-nav a:hover {
+    transform: translateY(-4px);
+}
+
+.detail-hero__image:hover {
+    transform: scale(1.02);
+}
+
+.detail-character-lane__totoro,
+.detail-corner-friends__totoro {
+    animation: float 4s ease-in-out infinite;
+}
+
+.detail-character-lane__soot,
+.detail-corner-friends__soot {
+    animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+<body class="detail-page" data-area="souko">
+    <header class="detail-header">
+        <div class="container detail-header__inner">
+            <a class="detail-brand" href="index.html">ジブリパーク</a>
+            <a class="detail-home" href="index.html#area">全エリアへ戻る ↗</a>
+        </div>
+    </header>
+    <main>
+        <section class="detail-hero">
+            <img id="detailImage" class="detail-hero__image" src="" alt="">
+            <div class="container detail-hero__content">
+                <p id="detailNumber" class="detail-number">
+                </p>
+                <h1 id="detailTitle" class="detail-title">
+                </h1>
+                <p id="detailMotif" class="detail-motif">
+                </p>
+            </div>
+        </section>
+        <section class="detail-body">
+            <div class="container">
+                <div class="detail-grid">
+                    <div>
+                        <p id="detailCopy" class="detail-copy">
+                        </p>
+                        <p id="detailDescription" class="detail-description">
+                        </p>
+                        <p class="detail-credit">写真：ジブリパーク公式サイト</p>
+                    </div>
+                    <aside class="detail-notes">
+                        <h2>旅の見どころ</h2>
+                        <ul id="detailPoints">
+                        </ul>
+                    </aside>
+                </div>
+                <div class="detail-character-lane" aria-hidden="true">
+                    <img class="detail-character-lane__soot" src="images/makkuro-kurosuke.png" alt="">
+                    <img class="detail-character-lane__trail" src="images/totoro-footprints.png" alt="">
+                    <img class="detail-character-lane__totoro" src="images/totoro-silhouette.png" alt="">
+                </div>
+                <nav class="detail-nav">
+                    <a id="prevArea">
+                    <small>← 前のエリア</small>
+                    <span id="prevName">
+                    </span>
+                    </a>
+                    <a id="mapLink" class="detail-map-link">地図でこの場所を見る</a>
+                    <a id="nextArea" class="next">
+                    <small>次のエリア →</small>
+                    <span id="nextName">
+                    </span>
+                    </a>
+                </nav>
+            </div>
+        </section>
+    </main>
+    <footer class="detail-footer">
+        <span class="detail-footer__label">ジブリパーク</span>
+        <span class="detail-corner-friends" aria-hidden="true">
+        <img class="detail-corner-friends__soot" src="images/makkuro-kurosuke.png" alt="">
+        <img class="detail-corner-friends__totoro" src="images/totoro-silhouette.png" alt="">
+        </span>
+    </footer>
+    <script>
+        const areaDetails = {
+          seishun: { number:"01", name:"青春の丘", image:"images/seishun.jpg", motif:"『耳をすませば』『猫の恩返し』", copy:"丘の風に吹かれながら、物語の入口を探す。", description:"19世紀末の空想科学を思わせるエレベーター塔を抜けると、ロータリー広場と地球屋が現れます。高低差のある景色そのものが、物語へ近づいていく旅路です。", points:["地球屋とロータリー広場","猫サイズで作られた猫の事務所","丘から公園を見渡す景色"] },
+          souko: { number:"02", name:"ジブリの大倉庫", image:"images/souko.jpg", motif:"スタジオジブリ作品全般", copy:"色、音、物語。大きな倉庫に散らばる秘密を拾い集める。", description:"映像展示室、企画展示、ショップやカフェまで、さまざまな作品世界が凝縮された屋内エリアです。色鮮やかな中央階段を起点に、自分だけの順路で探索できます。", points:["タイル装飾が美しい中央階段","作品世界へ入り込む企画展示","懐かしい街並みや展示空間"] },
+          dondoko: { number:"03", name:"どんどこ森", image:"images/dondoko.jpg", motif:"『となりのトトロ』", copy:"山道を一歩ずつ。木々の奥に、あの家が待っている。", description:"サツキとメイの家と、その裏山に広がる自然を楽しむエリアです。どんぐりを目印に山道を登る時間も含めて、森を訪ねる小さな冒険になります。", points:["昭和の暮らしを感じるサツキとメイの家","山頂へ続く緑豊かな散策路","木製遊具のどんどこ堂"] },
+          mononoke: { number:"04", name:"もののけの里", image:"images/mononoke.jpg", motif:"『もののけ姫』", copy:"草屋根と土の匂い。里山の風景を、ゆっくり歩く。", description:"和風の里山的風景の中に、タタラ場や作品をモチーフにしたオブジェが点在します。建物だけでなく、季節で表情を変える草木も見どころです。", points:["草屋根が印象的なタタラ場","里山の季節を感じる景観","乙事主とタタリ神のオブジェ"] },
+          majo: { number:"05", name:"魔女の谷", image:"images/majo.jpg", motif:"『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』", copy:"レンガの街角を曲がるたび、次の魔法が姿を見せる。", description:"ヨーロッパ風の街並みに、作品に登場する建物や遊具が集まるエリアです。高低差のある道と建物の屋根がつくる景色は、歩く位置によって印象が変わります。", points:["街のランドマークとなるハウルの城","グーチョキパン屋などの街並み","魔法と飛行をテーマにした仕掛け"] }
+        };
+        const order = ["seishun","souko","dondoko","mononoke","majo"];
+        const id = document.body.dataset.area;
+        const item = areaDetails[id] || areaDetails.seishun;
+        const index = order.indexOf(id);
+        document.title = item.name + "｜GHIBLI PARK ADVENTURE MAP";
+        document.getElementById("detailImage").src = item.image;
+        document.getElementById("detailImage").alt = item.name + "の写真";
+        document.getElementById("detailNumber").textContent = "AREA " + item.number;
+        document.getElementById("detailTitle").textContent = item.name;
+        document.getElementById("detailMotif").textContent = item.motif;
+        document.getElementById("detailCopy").textContent = item.copy;
+        document.getElementById("detailDescription").textContent = item.description;
+        document.getElementById("detailPoints").innerHTML = item.points.map(p => "<li>" + p + "</li>").join("");
+        const prev = areaDetails[order[(index + order.length - 1) % order.length]];
+        const next = areaDetails[order[(index + 1) % order.length]];
+        const prevId = order[(index + order.length - 1) % order.length];
+        const nextId = order[(index + 1) % order.length];
+        document.getElementById("prevArea").href = prevId + ".html";
+        document.getElementById("prevName").textContent = prev.name;
+        document.getElementById("nextArea").href = nextId + ".html";
+        document.getElementById("nextName").textContent = next.name;
+        document.getElementById("mapLink").href = "index.html?spot=" + id + "#map-section";
+    </script>
+</body>
+</html>

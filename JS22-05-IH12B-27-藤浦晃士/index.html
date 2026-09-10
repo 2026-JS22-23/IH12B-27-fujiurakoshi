@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジブリパーク</title>
+    <meta name="description" content="森の中を旅しながら、ジブリパークの5つのエリアと隠れたキャラクターを発見していく冒険マップ。Google Mapsで5エリアの場所を確認しながら、見どころをじっくりガイドします。">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+:root { --ink: #15362b; --cream: #f7f5ef; --paper: #fffdf8; --line: rgba(21,54,43,.14); --accent: #ddecaa; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { background: var(--cream); color: #263b33; font: 400 16px/1.8 "Noto Sans JP", sans-serif; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+.container { width: min(1120px, calc(100% - 48px)); margin: auto; }
+.site-header { position: sticky; top: 0; z-index: 50; background: rgba(247,245,239,.9); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+.header-inner { width: min(1240px, calc(100% - 48px)); height: 72px; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+.logo-main { color: var(--ink); font-weight: 700; }
+.site-nav { display: flex; gap: 8px; }
+.nav-link { padding: 7px 14px; border-radius: 30px; font-size: .75rem; transition: .25s; }
+.nav-link:hover, .nav-link.is-active { background: var(--ink); color: white; transform: translateY(-2px); }
+.nav-toggle { display: none; border: 0; background: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px; background: var(--ink); }
+.hero { position: relative; min-height: calc(100vh - 72px); display: flex; align-items: center; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(247,245,239,.98) 10%, rgba(247,245,239,.65) 55%, rgba(21,54,43,.12)); }
+.hero-content { position: relative; z-index: 2; width: min(1120px, calc(100% - 48px)); margin: auto; }
+.hero-title { width: 55%; margin-bottom: 30px; color: var(--ink); font: 700 clamp(2.6rem,6.2vw,5.6rem)/1.05 "Noto Serif JP", serif; white-space: nowrap; }
+.btn { display: inline-block; padding: 10px 20px; border: 1px solid var(--ink); border-radius: 30px; cursor: pointer; transition: .25s; }
+.btn:hover { transform: translateY(-3px); }
+.btn-primary { background: var(--ink); color: white; }
+.btn-outline { background: white; color: var(--ink); }
+.hero-field-card { position: absolute; z-index: 3; top: 50%; right: 6%; width: min(36vw,460px); padding: 12px; border-radius: 24px; background: rgba(255,255,255,.72); backdrop-filter: blur(12px); transform: translateY(-50%); }
+.field-card-photo { height: 290px; overflow: hidden; border-radius: 17px; }
+.field-card-photo img { width: 100%; height: 100%; object-fit: cover; }
+.field-card-stamp { position: absolute; top: 26px; left: 26px; padding: 5px 10px; border-radius: 20px; background: var(--ink); color: white; font-size: .65rem; }
+.field-card-coordinate { margin: 12px 8px 0; font-size: .65rem; }
+.hero-field-card h2 { margin: 0 8px 8px; }
+.hero-field-card dl { display: grid; grid-template-columns: repeat(3,1fr); margin: 0 8px; }
+.hero-field-card dt { font-size: .55rem; }
+.hero-field-card dd { font-weight: 700; }
+.field-banner { position: relative; z-index: 5; width: fit-content; margin: 24px auto 50px; padding: 12px 24px; display: flex; gap: 30px; border-radius: 30px; background: white; }
+.field-banner p { font-size: .7rem; }
+.field-banner span { margin-right: 6px; font-weight: 700; }
+.explore-workspace { position: relative; display: grid; grid-template-columns: 44% 56%; border-block: 1px solid var(--line); }
+.workspace-heading { display: none; }
+.area-section, .map-section, .guide-section, .access-section { position: relative; padding: 80px 0; overflow: hidden; }
+.section-kicker { color: #6f8078; font-size: .7rem; }
+.section-title { margin: 8px 0 14px; color: var(--ink); font: 700 clamp(2.2rem,4vw,4rem)/1.2 "Noto Serif JP",serif; }
+.section-lead { max-width: 620px; color: #687970; font-size: .85rem; }
+.area-section .container { width: auto; padding-left: 40px; }
+.area-slider-tools { margin: 20px 30px 14px 0; display: flex; justify-content: space-between; }
+.area-slider-tools button { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: white; cursor: pointer; }
+.area-grid { display: flex; gap: 16px; padding-right: 30px; overflow-x: auto; scroll-snap-type: x mandatory; }
+.area-card { flex: 0 0 320px; overflow: hidden; border-radius: 18px; background: white; scroll-snap-align: start; transition: .3s; }
+.area-card:hover, .area-card.is-active { transform: translateY(-7px); }
+.area-card-thumb { display: block; height: 190px; overflow: hidden; }
+.area-card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: .4s; }
+.area-card:hover img { transform: scale(1.05); }
+.area-card-body { padding: 18px; }
+.area-card-title { color: var(--ink); }
+.area-card-desc { margin: 8px 0 14px; font-size: .75rem; }
+.area-detail-link { display: block; margin-top: 8px; font-size: .7rem; }
+.photo-credit, .journey-route { display: none; }
+.map-section { background: var(--ink); color: white; }
+.map-section .section-title, .map-simple-heading h2, .map-simple-heading h3 { color: white; }
+.map-section > .container, .map-frame, .location-overview, .map-simple-heading { width: calc(100% - 64px); margin-inline: auto; }
+.map-simple-heading { margin-top: 26px; }
+.map-simple-heading--area { margin-top: 42px; }
+.location-overview__map, .map-canvas { height: 360px; min-height: 360px; border-radius: 18px; overflow: hidden; }
+.map-frame { position: relative; margin-top: 12px; display: grid; grid-template-columns: 230px minmax(0,1fr); gap: 12px; }
+.map-status, .explorer-hud { position: static; z-index: 5; min-height: 78px; padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.9); color: var(--ink); }
+.map-status { display: flex; flex-direction: column; justify-content: center; }
+.map-status span, .explorer-hud__top { font-size: .65rem; }
+.map-status strong { margin-top: 3px; font-size: .9rem; }
+.map-canvas { grid-column: 1 / -1; }
+.explorer-hud__top { display: flex; justify-content: space-between; margin-bottom: 7px; }
+.explorer-hud__stops { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; }
+.explorer-hud__stops button { min-height: 34px; padding: 5px; border: 0; border-radius: 7px; background: none; cursor: pointer; font-size: .65rem; }
+.explorer-hud__stops button.is-active { background: var(--ink); color: white; }
+.hidden-creature { position: absolute; z-index: 6; right: 12px; bottom: 5px; width: 75px; border: 0; background: none; }
+.hidden-creature img { width: 100%; }
+.hidden-creature span { display: none; }
+.map-error-note { text-align: center; }
+.guide-accordion { margin-top: 28px; }
+.guide-accordion-header { padding: 16px; border: 0; border-top: 1px solid var(--line); background: none; cursor: pointer; }
+.guide-accordion-panel { background: white; }
+.guide-panel-inner { padding: 20px; display: grid; grid-template-columns: 230px 1fr; gap: 24px; }
+.guide-panel-img { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; }
+.guide-panel-text { font-size: .8rem; }
+.access-section { background: #e7ece5; }
+.access-grid { margin-top: 28px; display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.access-card { padding: 20px; background: rgba(255,255,255,.7); }
+.access-card p { font-size: .78rem; }
+.site-footer { position: relative; min-height: 210px; padding: 60px 0; overflow: hidden; background: #102b22; color: white; }
+.footer-copy, .footer-small { margin-top: 8px; font-size: .7rem; }
+.hero-creature, .forest-friend, .totoro-trail, .catbus-runner, .footer-creature { position: absolute; z-index: 4; pointer-events: none; }
+.hero-creature { right: -10px; bottom: -20px; width: 150px; opacity: .55; }
+.forest-friend--soot-hero { left: 45%; bottom: 0; width: 190px; }
+.forest-friend--totoro-area { right: -20px; bottom: 10px; width: 110px; opacity: .25; }
+.forest-friend--soot-guide { right: 2%; top: 15px; width: 180px; }
+.forest-friend--totoro-access { left: -25px; bottom: -20px; width: 120px; opacity: .25; }
+.forest-friend--soot-footer { right: 16%; bottom: 0; width: 170px; }
+.totoro-trail--hero { left: 28%; bottom: 0; width: 300px; opacity: .15; }
+.totoro-trail--area { right: 0; top: 80px; width: 230px; opacity: .1; }
+.catbus-runner { right: -30px; bottom: -30px; width: 300px; }
+.footer-creature { right: 4%; bottom: -25px; width: 140px; opacity: .4; }
+.js-fade, .js-creature { opacity: 0; transform: translateY(18px); transition: .7s; }
+.js-fade.is-visible, .js-creature.is-visible { opacity: 1; transform: none; }
+@media (max-width: 800px) {
+    .container, .header-inner { width: calc(100% - 32px); }
+    .nav-toggle { display: block; }
+    .site-nav { position: absolute; top: 72px; inset-inline: 0; display: none; padding: 14px; background: var(--cream); }
+    .site-nav.is-open { display: flex; flex-direction: column; }
+    .hero { min-height: 680px; align-items: flex-start; padding-top: 70px; }
+    .hero-title { width: 100%; font-size: clamp(2.4rem,11vw,5.6rem); }
+    .hero-field-card { top: auto; right: 16px; bottom: 35px; width: calc(100% - 32px); transform: none; }
+    .field-card-photo { height: 230px; }
+    .field-banner { display: none; }
+    .explore-workspace { grid-template-columns: 1fr; }
+    .area-section .container { padding-left: 20px; }
+    .map-section > .container, .map-frame, .location-overview, .map-simple-heading { width: calc(100% - 32px); }
+  .map-frame { grid-template-columns: 1fr; }
+  .map-canvas { grid-column: 1; }
+  .explorer-hud__stops { grid-template-columns: repeat(5,minmax(92px,1fr)); overflow-x: auto; }
+    .guide-panel-inner, .access-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+    <header id="siteHeader" class="site-header">
+        <div class="header-inner">
+            <a href="#hero" class="logo">
+            <span class="logo-main">ジブリパーク</span>
+            </a>
+
+            <button id="navToggle" class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+            <span>
+            </span>
+            <span>
+            </span>
+            <span>
+            </span>
+            </button>
+            <nav id="siteNav" class="site-nav">
+                <a href="#area" class="nav-link">エリア</a>
+                <a href="#map-section" class="nav-link">地図</a>
+                <a href="#guide" class="nav-link">見どころ</a>
+                <a href="#access" class="nav-link">アクセス</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        <section id="hero" class="hero">
+            <img class="hero-bg" src="images/seishun.jpg" alt="青春の丘・地球屋の風景">
+            <img class="hero-creature hero-creature--left hero-creature--original js-creature" src="images/totoro-silhouette.png" alt="森のはしからのぞくトトロのシルエット">
+            <img class="forest-friend forest-friend--soot-hero js-creature" src="images/makkuro-kurosuke.png" alt="草むらからのぞくまっくろくろすけたち">
+            <img class="totoro-trail totoro-trail--hero" src="images/totoro-footprints.png" alt="森の奥へ続くトトロの足跡">
+            <div class="hero-content">
+                <h1 class="hero-title">ジブリパーク</h1>
+                <a href="#map-section" class="btn btn-primary hero-btn js-scroll">
+                地図を見る
+                </a>
+            </div>
+            <aside class="hero-field-card" aria-label="今回の冒険について">
+                <p class="field-card-stamp">旅の手帖 / 001</p>
+                <div class="field-card-photo">
+                    <img src="images/dondoko.jpg" alt="緑に囲まれたどんどこ森">
+                </div>
+                <p class="field-card-coordinate">北緯35.175121°・東経137.088775°</p>
+                <h2>今回の探索</h2>
+                <dl>
+                    <div>
+                        <dt>エリア</dt>
+                        <dd>05</dd>
+                    </div>
+                    <div>
+                        <dt>隠れキャラ</dt>
+                        <dd>01</dd>
+                    </div>
+                    <div>
+                        <dt>移動方法</dt>
+                        <dd>徒歩</dd>
+                    </div>
+                </dl>
+                <span class="field-card-tape" aria-hidden="true">
+                </span>
+            </aside>
+            <div class="hero-scroll-hint" aria-hidden="true">
+                <span>
+                </span>
+                <p>続きを見る</p>
+            </div>
+        </section>
+        <div class="field-banner" aria-label="冒険の進み方">
+            <p>
+            <span>01</span>場所を選ぶ</p>
+            <i aria-hidden="true">→</i>
+            <p>
+            <span>02</span>地図で探す</p>
+            <i aria-hidden="true">→</i>
+            <p>
+            <span>03</span>旅の記録を読む</p>
+        </div>
+        <section class="explore-workspace" aria-label="エリアと地図を同時に探索">
+            <div class="workspace-heading">
+                <span>冒険案内デスク</span>
+                <p>エリアを選んで、地図で見つける</p>
+            </div>
+
+            <section id="area" class="area-section">
+                <img class="forest-friend forest-friend--totoro-area js-creature" src="images/totoro-silhouette.png" alt="エリア案内の陰からのぞくトトロ">
+                <img class="totoro-trail totoro-trail--area" src="images/totoro-footprints.png" alt="エリアをつなぐトトロの足跡">
+                <div class="container">
+                    <p class="section-kicker">行き先を選ぶ</p>
+                    <h2 class="section-title">5つのエリアを巡ろう</h2>
+                    <p class="section-lead">
+                    森の奥に広がる5つの場所。それぞれに、少しずつ違う物語の空気が流れています。
+                    気になるエリアのカードから、地図でその場所を確かめてみましょう。
+                    </p>
+                    <div class="area-slider-tools" aria-label="エリアカードを移動">
+                        <p>
+                        <strong id="areaSlideCurrent">01</strong>
+                        <span>/ 05</span>
+                        </p>
+                        <div>
+                            <button id="areaPrev" type="button" aria-label="前のエリアへ">←</button>
+                            <button id="areaNext" type="button" aria-label="次のエリアへ">→</button>
+                        </div>
+                    </div>
+
+                    <div class="area-grid">
+
+                        <article class="area-card js-fade" data-spot="seishun">
+                            <a class="area-card-thumb" href="seishun.html" aria-label="青春の丘の旅の記録を見る">
+                            <img src="images/seishun.jpg" alt="青春の丘・地球屋の外観写真">
+                            </a>
+                            <div class="area-card-body">
+                                <h3 class="area-card-title">青春の丘</h3>
+                                <p class="area-card-desc">
+                                『耳をすませば』『猫の恩返し』の世界観を感じる、丘の上のエリア。
+                                「地球屋」やロータリー広場をめぐる、少し背伸びした散歩道。
+                                </p>
+                                <button type="button" class="btn btn-outline js-view-map" data-spot="seishun">
+                                地図で見る
+                                </button>
+                                <a class="area-detail-link" href="seishun.html">旅の記録を見る →</a>
+                            </div>
+                        </article>
+
+                        <article class="area-card js-fade" data-spot="souko">
+                            <a class="area-card-thumb" href="souko.html" aria-label="ジブリの大倉庫の旅の記録を見る">
+                            <img src="images/souko.jpg" alt="ジブリの大倉庫・中央階段の写真">
+                            </a>
+                            <div class="area-card-body">
+                                <h3 class="area-card-title">ジブリの大倉庫</h3>
+                                <p class="area-card-desc">
+                                屋内型のメイン施設。ジブリ作品の世界に浸れる展示や遊び場、
+                                貴重な資料、カフェ・ショップが集まる、旅の拠点となる大きな倉庫。
+                                </p>
+                                <button type="button" class="btn btn-outline js-view-map" data-spot="souko">
+                                地図で見る
+                                </button>
+                                <a class="area-detail-link" href="souko.html">旅の記録を見る →</a>
+                            </div>
+                        </article>
+
+                        <article class="area-card js-fade" data-spot="dondoko">
+                            <a class="area-card-thumb" href="dondoko.html" aria-label="どんどこ森の旅の記録を見る">
+                            <img src="images/dondoko.jpg" alt="どんどこ森・サツキとメイの家の写真">
+                            </a>
+                            <div class="area-card-body">
+                                <h3 class="area-card-title">どんどこ森</h3>
+                                <p class="area-card-desc">
+                                『となりのトトロ』の森をイメージしたエリア。
+                                「サツキとメイの家」から、山頂の木製遊具へと続く小道を登る。
+                                </p>
+                                <button type="button" class="btn btn-outline js-view-map" data-spot="dondoko">
+                                地図で見る
+                                </button>
+                                <a class="area-detail-link" href="dondoko.html">旅の記録を見る →</a>
+                            </div>
+                        </article>
+
+                        <article class="area-card js-fade" data-spot="mononoke">
+                            <a class="area-card-thumb" href="mononoke.html" aria-label="もののけの里の旅の記録を見る">
+                            <img src="images/mononoke.jpg" alt="もののけの里・タタラ場の写真">
+                            </a>
+                            <div class="area-card-body">
+                                <h3 class="area-card-title">もののけの里</h3>
+                                <p class="area-card-desc">
+                                『もののけ姫』の里山風景を再現したエリア。
+                                エミシの村を思わせる景観と、タタラ場をモチーフにした施設が広がる。
+                                </p>
+                                <button type="button" class="btn btn-outline js-view-map" data-spot="mononoke">
+                                地図で見る
+                                </button>
+                                <a class="area-detail-link" href="mononoke.html">旅の記録を見る →</a>
+                            </div>
+                        </article>
+
+                        <article class="area-card js-fade" data-spot="majo">
+                            <a class="area-card-thumb" href="majo.html" aria-label="魔女の谷の旅の記録を見る">
+                            <img src="images/majo.jpg" alt="魔女の谷・ハウルの城と街並みの写真">
+                            </a>
+                            <div class="area-card-body">
+                                <h3 class="area-card-title">魔女の谷</h3>
+                                <p class="area-card-desc">
+                                『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』の世界観。
+                                ヨーロッパ風の街並みに、オキノ邸やハウルの城が佇む谷。
+                                </p>
+                                <button type="button" class="btn btn-outline js-view-map" data-spot="majo">
+                                地図で見る
+                                </button>
+                                <a class="area-detail-link" href="majo.html">旅の記録を見る →</a>
+                            </div>
+                        </article>
+                    </div>
+                    <p class="photo-credit">写真：<a href="https://ghibli-park.jp/about/" target="_blank" rel="noopener noreferrer">ジブリパーク公式サイト</a>
+                    </p>
+                    <div class="journey-route js-fade" aria-label="5つのエリアを巡る旅のルート">
+                        <div class="journey-route__line" aria-hidden="true">
+                        </div>
+                        <button class="journey-stop is-current" type="button" data-spot="seishun">
+                        <span>01</span>青春の丘</button>
+                        <button class="journey-stop" type="button" data-spot="souko">
+                        <span>02</span>大倉庫</button>
+                        <button class="journey-stop" type="button" data-spot="dondoko">
+                        <span>03</span>どんどこ森</button>
+                        <button class="journey-stop" type="button" data-spot="mononoke">
+                        <span>04</span>もののけの里</button>
+                        <button class="journey-stop" type="button" data-spot="majo">
+                        <span>05</span>魔女の谷</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="map-section" class="map-section">
+                <div class="map-simple-heading">
+                    <h2>地図</h2>
+                </div>
+                <div class="location-overview" aria-label="日本全国から見たジブリパークの位置">
+                    <div id="japanMap" class="location-overview__map" role="application" aria-label="日本全国から見た愛知県長久手市の位置">
+                    </div>
+                </div>
+                <div class="map-simple-heading map-simple-heading--area">
+                    <h3>エリアマップ</h3>
+                </div>
+                <div class="map-frame">
+                    <div class="map-status" aria-live="polite">
+                        <span>現在の表示</span>
+                        <strong id="mapStatusName">5つのエリアを見渡す</strong>
+                    </div>
+                    <div class="explorer-hud" aria-label="地図と連動するエリア選択">
+                        <div class="explorer-hud__top">
+                            <span>
+                            <i>
+                            </i> 地図と連動</span>
+                            <strong id="explorerProgress">01 / 05</strong>
+                        </div>
+                        <div class="explorer-hud__stops">
+                            <button class="is-active" type="button" data-spot="seishun">
+                            <span>01</span>青春の丘</button>
+                            <button type="button" data-spot="souko">
+                            <span>02</span>大倉庫</button>
+                            <button type="button" data-spot="dondoko">
+                            <span>03</span>どんどこ森</button>
+                            <button type="button" data-spot="mononoke">
+                            <span>04</span>もののけの里</button>
+                            <button type="button" data-spot="majo">
+                            <span>05</span>魔女の谷</button>
+                        </div>
+                    </div>
+
+                    <div id="map" class="map-canvas" role="application" aria-label="ジブリパークの地図">
+                    </div>
+                    <button class="hidden-creature js-creature" type="button" aria-label="地図のそばに隠れたトトロを見つけた">
+                    <img src="images/totoro-silhouette.png" alt="" aria-hidden="true">
+                    <span>トトロをみつけた！</span>
+                    </button>
+
+                    <noscript>
+                    <p class="map-fallback">
+                    地図を表示するにはJavaScriptを有効にしてください。
+                    </p>
+                    </noscript>
+                </div>
+
+                <p id="mapErrorNote" class="map-error-note" hidden>
+                地図が表示されない場合は、index.html末尾のGoogle Maps APIキーが
+                有効か（利用制限・割り当て上限などを含めて）ご確認ください。
+                </p>
+            </section>
+        </section>
+
+        <section id="guide" class="guide-section">
+            <img class="forest-friend forest-friend--soot-guide js-creature" src="images/makkuro-kurosuke.png" alt="見どころ案内に集まるまっくろくろすけたち">
+            <div class="container">
+                <p class="section-kicker">旅の見どころ</p>
+                <h2 class="section-title">エリアくわしくガイド</h2>
+                <p class="section-lead">
+                ここから先は、旅行記のように少していねいなガイド。
+                気になるエリアをタップして、開いてみてください。
+                </p>
+
+                <div id="guideAccordion" class="guide-accordion">
+                    <h3 class="guide-accordion-header" data-spot="seishun">▼ 青春の丘</h3>
+                    <div class="guide-accordion-panel">
+                        <div class="guide-panel-inner">
+                            <img src="images/seishun.jpg" alt="青春の丘・地球屋の外観写真" class="guide-panel-img">
+                            <div class="guide-panel-text">
+                                <p>
+                                <strong>モチーフになっている作品：</strong>『耳をすませば』『猫の恩返し』</p>
+                                <p>
+                                <strong>特徴：</strong>丘の上に広がる、少し背伸びした青春の匂いがするエリア。石畳の坂道や小さな広場が続きます。</p>
+                                <p>
+                                <strong>見どころ：</strong>「地球屋」と「ロータリー広場」、外から眺める「猫の事務所」、実際に利用できる「エレベーター塔」で構成されています。</p>
+                                <p>
+                                <strong>おすすめポイント：</strong>坂道が多いエリアなので、歩きやすい靴で。夕方の光が差し込む時間帯は特に絵になります。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="guide-accordion-header" data-spot="souko">▼ ジブリの大倉庫</h3>
+                    <div class="guide-accordion-panel">
+                        <div class="guide-panel-inner">
+                            <img src="images/souko.jpg" alt="ジブリの大倉庫・中央階段の写真" class="guide-panel-img">
+                            <div class="guide-panel-text">
+                                <p>
+                                <strong>特徴：</strong>屋内施設で、スタジオジブリ作品の世界を体験できる仕掛けや遊び場が集約されています。</p>
+                                <p>
+                                <strong>見どころ：</strong>貴重な資料の展示や、映画の世界に入り込んだような仕掛け、カフェ・ショップも完備。雨の日でも楽しめます。</p>
+                                <p>
+                                <strong>おすすめポイント：</strong>展示が多く見応えがあるため、旅のスケジュールには余裕を持って組み込むのがおすすめです。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="guide-accordion-header" data-spot="dondoko">▼ どんどこ森</h3>
+                    <div class="guide-accordion-panel">
+                        <div class="guide-panel-inner">
+                            <img src="images/dondoko.jpg" alt="どんどこ森・サツキとメイの家の写真" class="guide-panel-img">
+                            <div class="guide-panel-text">
+                                <p>
+                                <strong>モチーフになっている作品：</strong>『となりのトトロ』</p>
+                                <p>
+                                <strong>特徴：</strong>木々に囲まれた、森そのものを歩いて楽しむエリアです。</p>
+                                <p>
+                                <strong>見どころ：</strong>「サツキとメイの家」があり、山頂への階段を登ると、子どもだけが入れる木製遊具「どんどこ堂」が待っています。</p>
+                                <p>
+                                <strong>おすすめポイント：</strong>山道になっているため、少し歩く覚悟で。登り切った先の眺めは、旅の途中のご褒美のような場所です。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="guide-accordion-header" data-spot="mononoke">▼ もののけの里</h3>
+                    <div class="guide-accordion-panel">
+                        <div class="guide-panel-inner">
+                            <img src="images/mononoke.jpg" alt="もののけの里・タタラ場の写真" class="guide-panel-img">
+                            <div class="guide-panel-text">
+                                <p>
+                                <strong>モチーフになっている作品：</strong>『もののけ姫』</p>
+                                <p>
+                                <strong>特徴：</strong>エミシの村をイメージした、里山の風景が広がるエリア。</p>
+                                <p>
+                                <strong>見どころ：</strong>タタラ場をモチーフにした体験施設や、タタリ神・乙事主のオブジェが点在しています。</p>
+                                <p>
+                                <strong>おすすめポイント：</strong>自然の起伏をそのまま活かした造りなので、四季の変化も一緒に楽しめます。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="guide-accordion-header" data-spot="majo">▼ 魔女の谷</h3>
+                    <div class="guide-accordion-panel">
+                        <div class="guide-panel-inner">
+                            <img src="images/majo.jpg" alt="魔女の谷・ハウルの城と街並みの写真" class="guide-panel-img">
+                            <div class="guide-panel-text">
+                                <p>
+                                <strong>モチーフになっている作品：</strong>『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』</p>
+                                <p>
+                                <strong>特徴：</strong>ヨーロッパ風の街並みが広がる、5エリアの中でも特に物語性の強いエリア。</p>
+                                <p>
+                                <strong>見どころ：</strong>「オキノ邸」「ハウルの城」「魔女の家」などの建物のほか、ショップ、レストラン、乗り物遊具があります。</p>
+                                <p>
+                                <strong>おすすめポイント：</strong>5エリアの中で最も新しく整備された区画。旅の最後に立ち寄ると、良い締めくくりになります。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="access" class="access-section">
+            <img class="forest-friend forest-friend--totoro-access js-creature" src="images/totoro-silhouette.png" alt="アクセス案内のそばにいるトトロ">
+            <img class="catbus-runner" src="images/nekobus.png" alt="案内の横を駆け抜ける猫バス">
+            <div class="container">
+                <p class="section-kicker">アクセス</p>
+                <h2 class="section-title">ジブリパークへの行き方</h2>
+                <div class="access-grid">
+                    <div class="access-card">
+                        <h3>所在地</h3>
+                        <p>愛知県長久手市（愛・地球博記念公園内）</p>
+                    </div>
+                    <div class="access-card">
+                        <h3>電車でのアクセス</h3>
+                        <p>
+                        愛知高速交通 東部丘陵線「リニモ」<strong>「愛・地球博記念公園」駅</strong>下車すぐ。
+                        愛知環状鉄道でもジブリパーク仕様のラッピング電車が運行しています。
+                        </p>
+                    </div>
+                    <div class="access-card">
+                        <h3>バスでのアクセス</h3>
+                        <p>
+                        名古屋駅（名鉄バスセンター4階24番のりば）から
+                        「愛・地球博記念公園（ジブリパーク）」行きが運行しています。
+                        中部国際空港からのアクセスバスもあります。
+                        </p>
+                    </div>
+                    <div class="access-card">
+                        <h3>車でのアクセス</h3>
+                        <p>
+                        ジブリパークには専用駐車場がありません。公共交通機関の利用が推奨されています。
+                        やむを得ず車で訪れる場合は、隣接する愛・地球博記念公園の駐車場情報を、
+                        事前に公式サイトでご確認ください。
+                        </p>
+                    </div>
+                    <div class="access-card access-card--note">
+                        <h3>営業時間・料金・チケットについて</h3>
+                        <p>
+                        <span class="tag-tentative">仮テキスト（要確認）</span>
+                        <br>
+                        営業時間・料金・チケットの購入方法は変更されることがあるため、
+                        このページには正確な数値を記載していません。
+                        ご来園前に必ず<strong>ジブリパーク公式サイト</strong>で最新情報をご確認ください。
+                        </p>
+                    </div>
+                </div>
+                <a href="#map-section" class="btn btn-outline js-scroll access-back-btn">
+                ← 地図へ戻る
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <img class="footer-creature js-creature" src="images/totoro-silhouette.png" alt="森の奥へ帰っていくトトロのシルエット">
+        <img class="forest-friend forest-friend--soot-footer js-creature" src="images/makkuro-kurosuke.png" alt="トトロを追いかけるまっくろくろすけたち">
+        <div class="footer-inner">
+            <p class="footer-logo">ジブリパーク</p>
+            <p class="footer-copy">
+            ジブリの世界を旅しよう。<br>
+            本サイトは学校課題として制作したファンメイドの架空の観光ガイドです。
+            </p>
+            <p class="footer-small">
+            &copy; 2026 ジブリパーク｜学校課題・非公式サイト
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        const spots = [
+          {
+            id: "seishun",
+            name: "青春の丘",
+            motif: "『耳をすませば』『猫の恩返し』",
+
+            lat: 35.1755521,
+            lng: 137.0892516,
+            image: "images/seishun.jpg",
+            description: "『耳をすませば』『猫の恩返し』の世界観を感じる、丘の上のエリア。「地球屋」やロータリー広場をめぐる、少し背伸びした散歩道。"
+          },
+          {
+            id: "souko",
+            name: "ジブリの大倉庫",
+            motif: "スタジオジブリ作品全般",
+
+            lat: 35.1735648,
+            lng: 137.0893477,
+            image: "images/souko.jpg",
+            description: "屋内型のメイン施設。ジブリ作品の世界に浸れる展示や遊び場、貴重な資料、カフェ・ショップが集まる、旅の拠点となる大きな倉庫。"
+          },
+          {
+            id: "dondoko",
+            name: "どんどこ森",
+            motif: "『となりのトトロ』",
+
+            lat: 35.1697144,
+            lng: 137.0934435,
+            image: "images/dondoko.jpg",
+            description: "『となりのトトロ』の森をイメージしたエリア。「サツキとメイの家」から、山頂の木製遊具「どんどこ堂」へと続く小道を登る。"
+          },
+          {
+            id: "mononoke",
+            name: "もののけの里",
+            motif: "『もののけ姫』",
+
+            lat: 35.1767418,
+            lng: 137.0938313,
+            image: "images/mononoke.jpg",
+            description: "『もののけ姫』の里山風景を再現したエリア。エミシの村を思わせる景観と、タタラ場をモチーフにした施設が広がる。"
+          },
+          {
+            id: "majo",
+            name: "魔女の谷",
+            motif: "『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』",
+
+            lat: 35.1738966,
+            lng: 137.0927624,
+            image: "images/majo.jpg",
+            description: "『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』の世界観。ヨーロッパ風の街並みに、オキノ邸やハウルの城が佇む谷。"
+          }
+        ];
+
+        const PARK_CENTER = { lat: 35.1751206, lng: 137.0887745 };
+        const DEFAULT_ZOOM = 16;
+        const FOCUS_ZOOM = 18;
+
+        let map;
+        let japanMap;
+        let infoWindow;             
+        const markerById = {};        
+
+        function initMap() {
+          if (map) return;
+          const mapEl = document.getElementById("map");
+          if (!mapEl) return;
+
+          const japanMapEl = document.getElementById("japanMap");
+          if (japanMapEl) {
+            japanMap = new google.maps.Map(japanMapEl, {
+              center: { lat: 36.2, lng: 137.1 },
+              zoom: 5,
+              styles: mapStyle,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false,
+              zoomControl: true
+            });
+
+            const parkMarker = new google.maps.Marker({
+              position: PARK_CENTER,
+              map: japanMap,
+              title: "ジブリパーク（愛知県長久手市）",
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 9,
+                fillColor: "#d86f46",
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 4
+              }
+            });
+
+            const locationInfo = new google.maps.InfoWindow({
+              content: '<div class="location-pin-label">ジブリパーク<br><small>愛知県長久手市｜名古屋の東側</small></div>'
+            });
+            parkMarker.addListener("click", function () {
+              locationInfo.open({ anchor: parkMarker, map: japanMap });
+            });
+          }
+
+          map = new google.maps.Map(mapEl, {
+            center: PARK_CENTER,
+            zoom: DEFAULT_ZOOM,
+
+            styles: mapStyle,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: true,
+            zoomControl: true
+          });
+
+          infoWindow = new google.maps.InfoWindow({
+            maxWidth: 260
+          });
+
+          spots.forEach(function (spot) {
+            const marker = new google.maps.Marker({
+              position: { lat: spot.lat, lng: spot.lng },
+              map: map,
+              title: spot.name,
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: "#dceda9",
+                fillOpacity: 1,
+                strokeColor: "#15362b",
+                strokeWeight: 4
+              },
+              animation: google.maps.Animation.DROP
+            });
+
+            marker.addListener("click", function () {
+              updateExplorerSelection(spot.id);
+              openSpotInfoWindow(spot.id);
+            });
+
+            markerById[spot.id] = marker;
+          });
+        }
+
+        function buildInfoWindowContent(spot) {
+          return (
+            '<div class="gmap-info-card">' +
+              '<img class="gmap-info-thumb" src="' + spot.image + '" alt="' + spot.name + 'のイメージイラスト">' +
+              '<div class="gmap-info-body">' +
+                '<p class="gmap-info-title">' + spot.name + "</p>" +
+                '<p class="gmap-info-desc">' + spot.description + "</p>" +
+                '<a class="gmap-info-link" href="' + spot.id + '.html">旅の記録を見る →</a>' +
+              "</div>" +
+            "</div>"
+          );
+        }
+
+        function openSpotInfoWindow(spotId) {
+          const spot = spots.find(function (s) { return s.id === spotId; });
+          const marker = markerById[spotId];
+          if (!spot || !marker || !infoWindow) return;
+
+          infoWindow.setContent(buildInfoWindowContent(spot));
+          infoWindow.open({ anchor: marker, map: map });
+
+          updateExplorerSelection(spotId);
+
+          const statusName = document.getElementById("mapStatusName");
+          if (statusName) statusName.textContent = spot.name + " を探索中";
+          document.querySelectorAll(".journey-stop").forEach(function (stop) {
+            stop.classList.toggle("is-current", stop.dataset.spot === spotId);
+          });
+        }
+
+        function updateExplorerSelection(spotId) {
+          const index = spots.findIndex(function (spot) { return spot.id === spotId; });
+          if (index < 0) return;
+
+          document.querySelectorAll(".area-card").forEach(function (card) {
+            card.classList.toggle("is-active", card.dataset.spot === spotId);
+          });
+          document.querySelectorAll(".explorer-hud__stops button").forEach(function (button) {
+            button.classList.toggle("is-active", button.dataset.spot === spotId);
+          });
+
+          const progress = document.getElementById("explorerProgress");
+          const slideCurrent = document.getElementById("areaSlideCurrent");
+          const number = String(index + 1).padStart(2, "0");
+          if (progress) progress.textContent = number + " / 05";
+          if (slideCurrent) slideCurrent.textContent = number;
+        }
+
+        function previewSpotOnMap(spotId) {
+          const spot = spots.find(function (item) { return item.id === spotId; });
+          if (!spot) return;
+          updateExplorerSelection(spotId);
+
+          const statusName = document.getElementById("mapStatusName");
+          if (statusName) statusName.textContent = spot.name + " をプレビュー";
+          if (map) {
+            map.panTo({ lat: spot.lat, lng: spot.lng });
+            map.setZoom(17);
+          }
+        }
+
+        function focusSpotOnMap(spotId) {
+          const spot = spots.find(function (s) { return s.id === spotId; });
+          if (!spot) return;
+
+          scrollMapIntoView();
+
+          const tryFocus = function () {
+            if (!map) {
+
+              setTimeout(tryFocus, 300);
+              return;
+            }
+            map.panTo({ lat: spot.lat, lng: spot.lng });
+            map.setZoom(FOCUS_ZOOM);
+            openSpotInfoWindow(spot.id);
+          };
+
+          setTimeout(tryFocus, 450);
+        }
+
+        function scrollToSelector(selector) {
+          const target = document.querySelector(selector);
+          if (!target) return;
+
+          const header = document.getElementById("siteHeader");
+          const headerHeight = header ? header.offsetHeight : 0;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight + 1;
+
+          window.scrollTo({ top: top, behavior: "smooth" });
+        }
+
+        function scrollMapIntoView() {
+          const mapCanvas = document.getElementById("map");
+          if (!mapCanvas) return;
+
+          const mapFrame = mapCanvas.closest(".map-frame") || mapCanvas;
+
+          const header = document.getElementById("siteHeader");
+          const headerHeight = header ? header.offsetHeight : 0;
+          const rect = mapFrame.getBoundingClientRect();
+          const absoluteTop = rect.top + window.pageYOffset;
+          const targetTop = absoluteTop - headerHeight - 12;
+
+          window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+        }
+
+        const mapStyle = [
+          { elementType: "geometry", stylers: [{ color: "#f3ecd8" }] },
+          { elementType: "labels.text.stroke", stylers: [{ color: "#f3ecd8" }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#6b4a32" }] },
+          { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#c9d9bb" }] },
+          { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#e7e2c6" }] },
+          { featureType: "water", elementType: "geometry", stylers: [{ color: "#b9cdbd" }] },
+          { featureType: "road", elementType: "geometry", stylers: [{ color: "#f7f1e1" }] },
+          { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#d9c79a" }] },
+          { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
+          { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] }
+        ];
+
+        window.gm_authFailure = function () {
+          const note = document.getElementById("mapErrorNote");
+          if (note) note.hidden = false;
+        };
+
+        window.initMap = initMap;
+        window.addEventListener("load", function () {
+
+          if (typeof google === "undefined" || !google.maps) {
+            window.gm_authFailure();
+            return;
+          }
+
+          const requestedSpot = new URLSearchParams(window.location.search).get("spot");
+          if (requestedSpot && spots.some(function (spot) { return spot.id === requestedSpot; })) {
+            setTimeout(function () { focusSpotOnMap(requestedSpot); }, 300);
+          }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+          const areaSlider = document.querySelector(".area-grid");
+          const areaPrev = document.getElementById("areaPrev");
+          const areaNext = document.getElementById("areaNext");
+          const areaSlideCurrent = document.getElementById("areaSlideCurrent");
+
+          function moveAreaSlider(direction) {
+            if (!areaSlider) return;
+            const card = areaSlider.querySelector(".area-card");
+            const distance = card ? card.getBoundingClientRect().width + 22 : areaSlider.clientWidth * .8;
+            areaSlider.scrollBy({ left: distance * direction, behavior: "smooth" });
+          }
+
+          if (areaPrev) areaPrev.addEventListener("click", function () { moveAreaSlider(-1); });
+          if (areaNext) areaNext.addEventListener("click", function () { moveAreaSlider(1); });
+          if (areaSlider && areaSlideCurrent) {
+            let sliderTick;
+            areaSlider.addEventListener("scroll", function () {
+              clearTimeout(sliderTick);
+              sliderTick = setTimeout(function () {
+                const cards = Array.from(areaSlider.querySelectorAll(".area-card"));
+                const sliderLeft = areaSlider.getBoundingClientRect().left;
+                let closestIndex = 0;
+                let closestDistance = Infinity;
+                cards.forEach(function (card, index) {
+                  const distance = Math.abs(card.getBoundingClientRect().left - sliderLeft);
+                  if (distance < closestDistance) { closestDistance = distance; closestIndex = index; }
+                });
+                areaSlideCurrent.textContent = String(closestIndex + 1).padStart(2, "0");
+                const activeCard = cards[closestIndex];
+                if (activeCard) previewSpotOnMap(activeCard.dataset.spot);
+              }, 80);
+            }, { passive: true });
+          }
+
+          const firstAreaCard = document.querySelector(".area-card");
+          if (firstAreaCard) firstAreaCard.classList.add("is-active");
+
+          document.querySelectorAll(".explorer-hud__stops button").forEach(function (button) {
+            button.addEventListener("click", function () {
+              const targetCard = document.querySelector('.area-card[data-spot="' + button.dataset.spot + '"]');
+              if (targetCard) targetCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+              previewSpotOnMap(button.dataset.spot);
+            });
+          });
+
+          document.querySelectorAll(".journey-stop").forEach(function (stop) {
+            stop.addEventListener("click", function () { focusSpotOnMap(stop.dataset.spot); });
+          });
+
+          const hiddenCreature = document.querySelector(".hidden-creature");
+          if (hiddenCreature) hiddenCreature.addEventListener("click", function () {
+            hiddenCreature.classList.toggle("is-found");
+          });
+
+          document.querySelectorAll(".js-view-map").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              focusSpotOnMap(btn.dataset.spot);
+            });
+          });
+
+          document.addEventListener("click", function (e) {
+            const link = e.target.closest(".gmap-info-link");
+            if (!link) return;
+
+          });
+
+          document.querySelectorAll(".js-scroll, .nav-link").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+              const href = link.getAttribute("href");
+              if (href && href.charAt(0) === "#") {
+                e.preventDefault();
+                scrollToSelector(href);
+                closeMobileNav();
+              }
+            });
+          });
+
+          const header = document.getElementById("siteHeader");
+          const navLinks = document.querySelectorAll(".nav-link");
+          const sectionIds = ["area", "map-section", "guide", "access"];
+
+          function updateActiveNav() {
+            const headerHeight = header ? header.offsetHeight : 0;
+            const scrollPos = window.scrollY + headerHeight + 40;
+            let currentId = null;
+
+            sectionIds.forEach(function (id) {
+              const el = document.getElementById(id);
+              if (el && el.offsetTop <= scrollPos) {
+                currentId = id;
+              }
+            });
+
+            navLinks.forEach(function (link) {
+              link.classList.toggle("is-active", link.getAttribute("href") === "#" + currentId);
+            });
+          }
+
+          window.addEventListener("scroll", function () {
+            if (header) header.classList.toggle("is-scrolled", window.scrollY > 10);
+            updateActiveNav();
+          });
+
+          const navToggle = document.getElementById("navToggle");
+          const siteNav = document.getElementById("siteNav");
+
+          if (navToggle && siteNav) {
+            navToggle.addEventListener("click", function () {
+              const isOpen = siteNav.classList.toggle("is-open");
+              navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            });
+          }
+
+          function closeMobileNav() {
+            if (siteNav) siteNav.classList.remove("is-open");
+            if (navToggle) navToggle.setAttribute("aria-expanded", "false");
+          }
+
+          const revealTargets = document.querySelectorAll(".js-fade, .js-creature");
+
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                  }
+                });
+              },
+              { threshold: 0.12 }
+            );
+
+            revealTargets.forEach(function (el) {
+              observer.observe(el);
+            });
+          } else {
+
+            revealTargets.forEach(function (el) {
+              el.classList.add("is-visible");
+            });
+          }
+
+          updateActiveNav();
+        });
+
+        if (typeof jQuery !== "undefined") {
+          jQuery(function ($) {
+
+            $("#guideAccordion").accordion({
+              header: ".guide-accordion-header",
+              collapsible: true,
+              active: false,
+              heightStyle: "content",
+              icons: false,
+              animate: 250
+            });
+
+            window.openGuidePanel = function (spotId) {
+              const $header = $('.guide-accordion-header[data-spot="' + spotId + '"]');
+              if (!$header.length) return;
+              const index = $("#guideAccordion .guide-accordion-header").index($header);
+              $("#guideAccordion").accordion("option", "active", index);
+            };
+          });
+        }
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBq1y_iJMeRrlKmtLbG2W1BU7Iep8c4dcM&loading=async&callback=initMap&libraries=maps,marker&v=beta"></script>
+</body>
+</html>
