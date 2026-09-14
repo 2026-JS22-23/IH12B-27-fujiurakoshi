@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魔女の谷｜ジブリパーク</title>
+    <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    line-height: 1.8;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: min(1000px, calc(100% - 40px));
+    margin: auto;
+}
+
+.detail-header__inner {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-brand {
+    font-weight: 700;
+}
+
+.detail-home {
+    font-size: .8rem;
+}
+
+.detail-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+}
+
+.detail-hero__content {
+    padding: 70px max(30px, 8vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detail-number,
+.detail-motif {
+    font-size: .8rem;
+}
+
+.detail-title {
+    margin: 15px 0;
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.2;
+}
+
+.detail-description {
+    max-width: 520px;
+}
+
+.detail-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-body {
+    padding: 70px 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 50px;
+}
+
+.detail-copy p {
+    margin-bottom: 20px;
+}
+
+.detail-notes {
+    padding: 22px;
+}
+
+.detail-notes li {
+    margin: 8px 0 8px 18px;
+}
+
+.detail-map-link {
+    display: inline-block;
+    margin-top: 18px;
+}
+
+.detail-credit {
+    margin-top: 30px;
+    font-size: .7rem;
+}
+
+.detail-character-lane {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.detail-character-lane img,
+.detail-corner-friends img {
+    position: absolute;
+}
+
+.detail-character-lane__totoro {
+    left: 8%;
+    bottom: -20px;
+    width: 110px;
+    opacity: .5;
+}
+
+.detail-character-lane__soot {
+    left: 40%;
+    bottom: 5px;
+    width: 160px;
+}
+
+.detail-character-lane__trail {
+    right: 8%;
+    bottom: 0;
+    width: 230px;
+    opacity: .15;
+}
+
+.detail-nav {
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.detail-nav a {
+    padding: 16px;
+}
+
+.detail-nav .next {
+    text-align: right;
+}
+
+.detail-nav small,
+.detail-nav span {
+    display: block;
+}
+
+.detail-footer {
+    position: relative;
+    min-height: 170px;
+    padding: 55px max(20px, 5vw);
+    overflow: hidden;
+}
+
+.detail-corner-friends {
+    position: absolute;
+    right: 4%;
+    bottom: 0;
+    width: 230px;
+    height: 150px;
+}
+
+.detail-corner-friends__totoro {
+    right: 0;
+    bottom: -20px;
+    width: 105px;
+    opacity: .55;
+}
+
+.detail-corner-friends__soot {
+    left: 0;
+    bottom: 0;
+    width: 145px;
+}
+
+@media (max-width: 700px) {
+    .detail-hero,
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-hero__content {
+        padding: 55px 20px;
+    }
+
+    .detail-hero__image {
+        height: 330px;
+    }
+
+    .detail-nav {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detail-home,
+.detail-map-link,
+.detail-nav a,
+.detail-hero__image {
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.detail-home:hover,
+.detail-map-link:hover,
+.detail-nav a:hover {
+    transform: translateY(-4px);
+}
+
+.detail-hero__image:hover {
+    transform: scale(1.02);
+}
+
+.detail-character-lane__totoro,
+.detail-corner-friends__totoro {
+    animation: float 4s ease-in-out infinite;
+}
+
+.detail-character-lane__soot,
+.detail-corner-friends__soot {
+    animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+/* 詳細ページデザイン */
+:root {
+    --ink: #15362b;
+    --cream: #f7f5ef;
+    --paper: #fffdf8;
+    --accent: #ddecaa;
+    --area: #55745f;
+    --area-soft: #dfe9dc;
+    --line: rgba(21, 54, 43, .15);
+    --shadow: 0 24px 70px rgba(21, 54, 43, .13);
+}
+
+body[data-area="seishun"] { --area: #597b86; --area-soft: #dcebed; }
+body[data-area="souko"] { --area: #9a6648; --area-soft: #eee1d5; }
+body[data-area="dondoko"] { --area: #4f7651; --area-soft: #dce9d7; }
+body[data-area="mononoke"] { --area: #7b4a42; --area-soft: #eadbd5; }
+body[data-area="majo"] { --area: #65517c; --area-soft: #e6deeb; }
+
+html { scroll-behavior: smooth; }
+
+body.detail-page {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 10% 24%, rgba(221, 236, 170, .32), transparent 26rem),
+        var(--cream);
+    color: #263b33;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+.detail-page a { color: inherit; }
+
+.detail-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+    background: rgba(247, 245, 239, .88);
+    backdrop-filter: blur(14px);
+}
+
+.detail-header__inner { min-height: 72px; }
+
+.detail-brand {
+    color: var(--ink);
+    font-size: .95rem;
+    letter-spacing: .12em;
+}
+
+.detail-brand::before {
+    content: "●";
+    margin-right: .65rem;
+    color: var(--area);
+    font-size: .7rem;
+}
+
+.detail-home {
+    padding: .58rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .72);
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.detail-home:hover { background: var(--ink); color: #fff; }
+
+.detail-hero {
+    position: relative;
+    grid-template-columns: minmax(0, 56%) minmax(360px, 44%);
+    min-height: min(680px, calc(100vh - 72px));
+    padding: clamp(18px, 3vw, 44px);
+    gap: clamp(12px, 2vw, 30px);
+    background: var(--area-soft);
+    isolation: isolate;
+}
+
+.detail-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, transparent 46%, rgba(255,255,255,.08) 58%, transparent 70%);
+    pointer-events: none;
+}
+
+.detail-hero__image {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    max-height: 620px;
+    align-self: center;
+    border: 8px solid rgba(255, 253, 248, .72);
+    border-radius: clamp(18px, 2.4vw, 32px);
+    box-shadow: 0 28px 60px rgba(21, 54, 43, .2);
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(.84) contrast(.96);
+}
+
+body[data-area="seishun"] .detail-hero__image { object-position: 50% 54%; }
+body[data-area="souko"] .detail-hero__image { object-position: 50% 56%; }
+body[data-area="dondoko"] .detail-hero__image { object-position: 50% 50%; }
+body[data-area="mononoke"] .detail-hero__image { object-position: 51% 50%; }
+
+body[data-area="majo"] .detail-hero {
+    grid-template-columns: minmax(340px, 48%) minmax(360px, 52%);
+}
+
+body[data-area="majo"] .detail-hero__image {
+    width: min(100%, 390px);
+    justify-self: center;
+    object-fit: cover;
+    object-position: 50% 52%;
+}
+
+.detail-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: clamp(4rem, 9vw, 8rem);
+}
+
+.detail-number {
+    width: fit-content;
+    padding: .38rem .75rem;
+    border-radius: 999px;
+    background: var(--area);
+    color: #fff;
+    font-family: "Manrope", sans-serif;
+    font-weight: 700;
+    letter-spacing: .18em;
+}
+
+.detail-title {
+    max-width: 7em;
+    color: var(--ink);
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(3rem, 6.5vw, 6.4rem);
+    letter-spacing: -.04em;
+}
+
+.detail-motif {
+    max-width: 30rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(21, 54, 43, .22);
+    color: var(--area);
+    font-weight: 600;
+}
+
+.detail-body {
+    position: relative;
+    padding: clamp(4.5rem, 9vw, 8rem) 0 3rem;
+}
+
+.detail-grid { grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(2.5rem, 7vw, 7rem); }
+
+.detail-copy {
+    max-width: 18em;
+    margin-bottom: 1.7rem;
+    color: var(--ink);
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(1.65rem, 3vw, 2.45rem);
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+.detail-description { color: #52665d; font-size: .98rem; line-height: 2.05; }
+
+.detail-credit { color: #849188; letter-spacing: .05em; }
+
+.detail-notes {
+    align-self: start;
+    padding: 1.8rem;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: rgba(255, 253, 248, .9);
+    box-shadow: var(--shadow);
+}
+
+.detail-notes h2 {
+    margin-bottom: 1.1rem;
+    color: var(--ink);
+    font-family: "Noto Serif JP", serif;
+    font-size: 1.25rem;
+}
+
+.detail-notes li {
+    padding: .65rem 0;
+    border-bottom: 1px dashed var(--line);
+    color: #52665d;
+    font-size: .85rem;
+}
+
+.detail-notes li::marker { color: var(--area); }
+.detail-notes li:last-child { border-bottom: 0; }
+
+.detail-character-lane {
+    height: 170px;
+    margin-top: 3.5rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.detail-character-lane__soot {
+    left: 42%;
+    bottom: 10px;
+    width: 112px;
+    opacity: .9;
+    filter: drop-shadow(0 10px 16px rgba(21, 54, 43, .12));
+}
+
+.detail-character-lane__totoro {
+    left: 7%;
+    bottom: -16px;
+    width: 92px;
+    opacity: .2;
+}
+
+.detail-character-lane__trail {
+    right: 13%;
+    bottom: 8px;
+    width: 190px;
+    opacity: .07;
+    transform: rotate(-5deg);
+}
+
+.detail-character-lane__catbus {
+    right: 2%;
+    bottom: -9px;
+    width: 150px;
+    opacity: .78;
+    filter: drop-shadow(0 12px 14px rgba(21, 54, 43, .17));
+    animation: catbus-breathe 3.8s ease-in-out infinite;
+}
+
+.detail-nav {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--line);
+}
+
+.detail-nav a {
+    display: flex;
+    min-height: 96px;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.detail-nav a:hover { border-color: var(--area); box-shadow: 0 14px 32px rgba(21, 54, 43, .1); }
+.detail-nav small { color: #7c8c84; font-size: .65rem; letter-spacing: .08em; }
+.detail-nav span { margin-top: .25rem; font-family: "Noto Serif JP", serif; font-weight: 700; }
+
+.detail-nav .detail-map-link {
+    min-height: auto;
+    margin: 0;
+    padding-inline: 1.4rem;
+    align-self: center;
+    border-color: var(--ink);
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+.detail-footer {
+    min-height: 210px;
+    background: var(--ink);
+    color: rgba(255, 255, 255, .88);
+}
+
+.detail-footer__label { font-family: "Noto Serif JP", serif; font-size: 1.25rem; font-weight: 700; letter-spacing: .12em; }
+.detail-corner-friends { right: 4%; width: 205px; opacity: .34; filter: invert(1); }
+.detail-corner-friends__soot { width: 112px; }
+.detail-corner-friends__totoro { width: 88px; }
+.detail-corner-friends__catbus {
+    position: absolute;
+    right: 72px;
+    bottom: -4px;
+    width: 118px;
+    opacity: .8;
+}
+
+@keyframes catbus-breathe {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-7px) rotate(1deg); }
+}
+
+@media (max-width: 820px) {
+    .container { width: min(100% - 32px, 680px); }
+    .detail-hero,
+    body[data-area="majo"] .detail-hero {
+        grid-template-columns: 1fr;
+        padding: 18px 18px 0;
+        gap: 0;
+    }
+    .detail-hero::after { inset: 0; background: linear-gradient(0deg, var(--area-soft) 0, transparent 52%); }
+    .detail-hero__image {
+        width: 100%;
+        height: clamp(310px, 48vh, 470px);
+        min-height: 0;
+        border-width: 6px;
+    }
+    body[data-area="majo"] .detail-hero__image {
+        width: min(100%, 340px);
+        height: 500px;
+        object-fit: cover;
+        object-position: 50% 48%;
+    }
+    .detail-hero__content { padding: 3rem 1rem 4rem; }
+    .detail-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .detail-notes { max-width: none; }
+    .detail-nav { grid-template-columns: 1fr 1fr; }
+    .detail-nav .detail-map-link { grid-column: 1 / -1; grid-row: 1; min-height: 52px; }
+}
+
+@media (max-width: 520px) {
+    .detail-header__inner { min-height: 62px; }
+    .detail-brand { font-size: .78rem; letter-spacing: .05em; }
+    .detail-home { padding: .5rem .72rem; font-size: .68rem; }
+    .detail-title { font-size: clamp(2.6rem, 14vw, 4rem); }
+    .detail-hero__image { height: 285px; }
+    body[data-area="majo"] .detail-hero__image { width: min(88%, 290px); height: 420px; }
+    .detail-character-lane { height: 125px; margin-top: 2rem; }
+    .detail-character-lane__soot { left: 40%; width: 82px; }
+    .detail-character-lane__totoro { left: 2%; width: 68px; }
+    .detail-character-lane__trail { right: 5%; width: 125px; }
+    .detail-character-lane__catbus { right: -8px; width: 105px; }
+    .detail-nav { gap: 8px; }
+    .detail-nav a { min-height: 84px; padding: 12px; }
+    .detail-corner-friends { transform: scale(.8); transform-origin: right bottom; }
+}
+
+    </style>
+</head>
+<body class="detail-page" data-area="majo">
+    <header class="detail-header">
+        <div class="container detail-header__inner">
+            <a class="detail-brand" href="index.html">ジブリパーク</a>
+            <a class="detail-home" href="index.html#area">全エリアへ戻る ↗</a>
+        </div>
+    </header>
+    <main>
+        <section class="detail-hero">
+            <img id="detailImage" class="detail-hero__image" src="" alt="">
+            <div class="container detail-hero__content">
+                <p id="detailNumber" class="detail-number">
+                </p>
+                <h1 id="detailTitle" class="detail-title">
+                </h1>
+                <p id="detailMotif" class="detail-motif">
+                </p>
+            </div>
+        </section>
+        <section class="detail-body">
+            <div class="container">
+                <div class="detail-grid">
+                    <div>
+                        <p id="detailCopy" class="detail-copy">
+                        </p>
+                        <p id="detailDescription" class="detail-description">
+                        </p>
+                        <p class="detail-credit">写真：ジブリパーク公式サイト</p>
+                    </div>
+                    <aside class="detail-notes">
+                        <h2>旅の見どころ</h2>
+                        <ul id="detailPoints">
+                        </ul>
+                    </aside>
+                </div>
+                <div class="detail-character-lane" aria-hidden="true">
+                    <img class="detail-character-lane__soot" src="images/makkuro-kurosuke.png" alt="">
+                    <img class="detail-character-lane__trail" src="images/totoro-footprints.png" alt="">
+                    <img class="detail-character-lane__totoro" src="images/totoro-silhouette.png" alt="">
+                </div>
+                <nav class="detail-nav">
+                    <a id="prevArea">
+                    <small>← 前のエリア</small>
+                    <span id="prevName">
+                    </span>
+                    </a>
+                    <a id="mapLink" class="detail-map-link">地図でこの場所を見る</a>
+                    <a id="nextArea" class="next">
+                    <small>次のエリア →</small>
+                    <span id="nextName">
+                    </span>
+                    </a>
+                </nav>
+            </div>
+        </section>
+    </main>
+    <footer class="detail-footer">
+        <span class="detail-footer__label">ジブリパーク</span>
+        <span class="detail-corner-friends" aria-hidden="true">
+        <img class="detail-corner-friends__soot" src="images/makkuro-kurosuke.png" alt="">
+        <img class="detail-corner-friends__totoro" src="images/totoro-silhouette.png" alt="">
+        </span>
+    </footer>
+    <script>
+        const areaDetails = {
+          seishun: { number:"01", name:"青春の丘", image:"images/seishun.jpg", motif:"『耳をすませば』『猫の恩返し』", copy:"丘の風に吹かれながら、物語の入口を探す。", description:"19世紀末の空想科学を思わせるエレベーター塔を抜けると、ロータリー広場と地球屋が現れます。高低差のある景色そのものが、物語へ近づいていく旅路です。", points:["地球屋とロータリー広場","猫サイズで作られた猫の事務所","丘から公園を見渡す景色"] },
+          souko: { number:"02", name:"ジブリの大倉庫", image:"images/souko.jpg", motif:"スタジオジブリ作品全般", copy:"色、音、物語。大きな倉庫に散らばる秘密を拾い集める。", description:"映像展示室、企画展示、ショップやカフェまで、さまざまな作品世界が凝縮された屋内エリアです。色鮮やかな中央階段を起点に、自分だけの順路で探索できます。", points:["タイル装飾が美しい中央階段","作品世界へ入り込む企画展示","懐かしい街並みや展示空間"] },
+          dondoko: { number:"03", name:"どんどこ森", image:"images/dondoko.jpg", motif:"『となりのトトロ』", copy:"山道を一歩ずつ。木々の奥に、あの家が待っている。", description:"サツキとメイの家と、その裏山に広がる自然を楽しむエリアです。どんぐりを目印に山道を登る時間も含めて、森を訪ねる小さな冒険になります。", points:["昭和の暮らしを感じるサツキとメイの家","山頂へ続く緑豊かな散策路","木製遊具のどんどこ堂"] },
+          mononoke: { number:"04", name:"もののけの里", image:"images/mononoke.jpg", motif:"『もののけ姫』", copy:"草屋根と土の匂い。里山の風景を、ゆっくり歩く。", description:"和風の里山的風景の中に、タタラ場や作品をモチーフにしたオブジェが点在します。建物だけでなく、季節で表情を変える草木も見どころです。", points:["草屋根が印象的なタタラ場","里山の季節を感じる景観","乙事主とタタリ神のオブジェ"] },
+          majo: { number:"05", name:"魔女の谷", image:"images/majo.jpg", motif:"『魔女の宅急便』『ハウルの動く城』『アーヤと魔女』", copy:"レンガの街角を曲がるたび、次の魔法が姿を見せる。", description:"ヨーロッパ風の街並みに、作品に登場する建物や遊具が集まるエリアです。高低差のある道と建物の屋根がつくる景色は、歩く位置によって印象が変わります。", points:["街のランドマークとなるハウルの城","グーチョキパン屋などの街並み","魔法と飛行をテーマにした仕掛け"] }
+        };
+        const order = ["seishun","souko","dondoko","mononoke","majo"];
+        const id = document.body.dataset.area;
+        const item = areaDetails[id] || areaDetails.seishun;
+        const index = order.indexOf(id);
+        document.title = item.name + "｜GHIBLI PARK ADVENTURE MAP";
+        document.getElementById("detailImage").src = item.image;
+        document.getElementById("detailImage").alt = item.name + "の写真";
+        document.getElementById("detailNumber").textContent = "AREA " + item.number;
+        document.getElementById("detailTitle").textContent = item.name;
+        document.getElementById("detailMotif").textContent = item.motif;
+        document.getElementById("detailCopy").textContent = item.copy;
+        document.getElementById("detailDescription").textContent = item.description;
+        document.getElementById("detailPoints").innerHTML = item.points.map(p => "<li>" + p + "</li>").join("");
+        const prev = areaDetails[order[(index + order.length - 1) % order.length]];
+        const next = areaDetails[order[(index + 1) % order.length]];
+        const prevId = order[(index + order.length - 1) % order.length];
+        const nextId = order[(index + 1) % order.length];
+        document.getElementById("prevArea").href = prevId + ".html";
+        document.getElementById("prevName").textContent = prev.name;
+        document.getElementById("nextArea").href = nextId + ".html";
+        document.getElementById("nextName").textContent = next.name;
+        document.getElementById("mapLink").href = "index.html?spot=" + id + "#map-section";
+    </script>
+</body>
+</html>
